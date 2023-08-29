@@ -1,18 +1,22 @@
 import { useState, useEffect } from "react"
 
 const App = () => {
-  const [num, setNum] = useState(0)
+  const [advice, setAdvice] = useState('')
+
+  const handler = async () => {
+    let response = await fetch("https://api.adviceslip.com/advice")
+    let data = await response.json()
+    setAdvice(data.slip)
+  }
 
   useEffect(() => {
-    console.log("updated")
-  }, [num])
-
-
+    handler()
+  }, [])
   return (
     <div>
       <h1>my sight again</h1>
-      <h2>{num}</h2>
-      <button onClick={() => setNum(num + 1)}>+</button>
+      <button onClick={handler}>click</button>
+      <h2>{advice.advice}</h2>
     </div>
   )
 }
